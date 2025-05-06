@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="background-color: #393E46; height: 92vh;">
+<div class="text-white">
+    <h1 class="text-white text-center">Activity Duration</h1>
+
+    <p class="fs-4"><strong>Start date & Time:</strong> {{ start|date:"F j, Y, g:i a" }}</p>
+    <p class="fs-4"><strong>End data & Time:</strong> {{ end|date:"F j, Y, g:i a" }}</p>
+
+    <ul class="fs-5">
+        <li><strong>Cyvl:</strong> {{ durations.cyvl|default:"0:00:00" }}</li>
+        <li><strong>YouTube:</strong> {{ durations.youtube|default:"0:00:00" }}</li>
+        <li><strong>Others:</strong> {{ durations.other|default:"0:00:00" }}</li>
+    </ul>
+
+    <a href="{% url 'tracking' %}" class="btn btn-primary">Back</a>
+</div>
+</div>
+{% endblock %}
+

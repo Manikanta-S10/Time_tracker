@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="outercontainer position-relative" style="height: 96vh; width: 99vw;">
+    <video autoplay muted height="100%" width="100%" style="object-fit: cover;">
+        <source src="{% static 'images/water.mp4' %}" type="video/mp4">
+    </video>
+    <!-- <img src="{% static 'images/hero.jpg' %}" alt="" style="object-fit: cover; height:100%; width:100%;"> -->
+    <div class="button-container w-100 position-absolute top-50 d-flex gap-3 justify-content-center">
+        <a href="{% url 'login' %}" class="btn btn-dark btn-lg px-4 py-3 fs-5">Login</a>
+        <a href="{% url 'signup' %}" class="btn btn-dark btn-lg px-4 py-3 fs-5">Sign Up</a>
+    </div>
+</div>
+{% endblock %}

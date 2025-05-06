@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-center" style="background-color: #393E46; height: 94vh;">
+<div class="">
+  <h2 class="text-white m-3">Activity Dashboard</h2>
+
+  {% if is_admin %}
+  <form method="GET" class="mb-4">
+    <label class="text-white">Select User:</label>
+    <select name="user_id">
+      <option value="all" {% if selected_user_id == 'all' %}selected{% endif %}>All Users</option>
+      {% for u in users %}
+        <option value="{{ u.id }}" {% if u.id|stringformat:"s" == selected_user_id|stringformat:"s" %}selected{% endif %}>{{ u.name }}</option>
+      {% endfor %}
+    </select>
+  
+    <label class="text-white mx-2">From:</label>
+    <input type="date" name="start_date" value="{{ start_date }}">
+  
+    <label class="text-white mx-2">To:</label>
+    <input type="date" name="end_date" value="{{ end_date }}">
+  
+    <button type="submit" class="btn btn-primary mx-2">Search</button>
+  </form>  
+  {% endif %}
+
+  <table class="table table-bordered text-white">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Date</th>
+        <th>Total Worked hours</th>
+        <th>Total working hours should be</th>
+        <th>Cyvl</th>
+        <th>Total cyvl hours should be</th>
+        <th>YouTube</th>
+        <th>Other related works</th>
+        <th>Cyvl Remaining hours</th>
+        <th>Statisfied Cyvl</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+        <tr>
+          <td>{{ log.user.name }}</td>
+          <td>{{ log.date }}</td>
+          <td>{{ log.fmt_working }}</td>
+          <td>9h 30m</td>
+          <td>{{ log.fmt_cyvl }}</td>
+          <td>8h</td>
+          <td>{{ log.fmt_youtube }}</td>
+          <td>{{ log.fmt_other }}</td>
+          <td>{{ log.remaining_cyvl }}</td>
+          <td>
+            {% if log.satisfied %}
+              ✔️
+            {% else %}
+              ❌
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="7">No activity found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+</div>
+</div>
+{% endblock %}

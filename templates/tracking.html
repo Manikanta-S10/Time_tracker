@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container-fluid" style="background-color: #393E46; height: 94vh;">
+        <h1 class="text-white text-center p-3">Welcome {{ userName }}</h1>
+        <form method="POST" action="{% url 'submit_timer_form' %}">
+            {% csrf_token %}
+            <input type="hidden" id="startInput" name="start_time">
+            <input type="hidden" id="endInput" name="end_time">
+        
+            <div class="start-timer-buttons mt-5 d-flex gap-3 justify-content-evenly">
+                <button type="button" class="btn btn-primary" id="startBtn">Start Timer</button>
+                <button type="submit" class="btn btn-primary" id="stopBtn">Stop Timer</button>
+            </div>
+        
+            <div class="start-timer-time mt-3 text-white ms-5">
+                <p id="startTime">Start Time: 00:00:00</p>
+                <p id="stopTime">Stop Time: 00:00:00</p>
+            </div>
+        </form>
+        <div class="dashboard-button text-center mt-4">
+            <a href="{% url 'activity_dashboard' %}" style="text-decoration: none; color: white;"><button class="btn btn-primary">View Dashboard</button></a>
+        </div>
+    </div>
+
+    <script>
+        let startTime = null;
+    
+        document.getElementById('startBtn').addEventListener('click', function () {
+            startTime = new Date();
+            document.getElementById('startTime').innerText = 'Start Time: ' + startTime.toLocaleString();
+            document.getElementById('startInput').value = startTime.toISOString();
+        });
+    
+        document.getElementById('stopBtn').addEventListener('click', function (event) {
+            event.preventDefault(); // <-- prevent auto-submit
+    
+            const stopTime = new Date();
+            document.getElementById('stopTime').innerText = 'Stop Time: ' + stopTime.toLocaleString();
+            document.getElementById('endInput').value = stopTime.toISOString();
+    
+            // ✅ Manually submit the form after setting values
+            event.target.closest('form').submit();
+        });
+    </script>
+    
+{% endblock %}
