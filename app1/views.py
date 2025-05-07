@@ -9,10 +9,14 @@ import re
 from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.timezone import get_current_timezone
 from django.db.models import Q
+from django.contrib.auth import logout
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    user_id = request.session.get('user_id')
+    if user_id:
+        return redirect('tracking')  # already logged in
+    return redirect('login')  # not logged in
 
 
 def signup(request):
@@ -34,7 +38,6 @@ def signup(request):
         return redirect('login')
     
     return render(request, 'signup.html')
-
 
 def login(request):
     if request.method == 'POST':
@@ -263,7 +266,7 @@ def activity_dashboard(request):
     end_date_str = request.GET.get('end_date')
 
     logs = ActivityLog.objects.all() if is_admin else ActivityLog.objects.filter(user=current_user)
-    
+
     # Filter by user
     if is_admin:
         if selected_user_id and selected_user_id != 'all':
@@ -332,4 +335,6 @@ def activity_dashboard(request):
         'end_date': end_date_str
     })
 
-
+def logout_view(request):
+    logout(request)
+    return redirect('login')  

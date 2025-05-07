@@ -8,6 +8,9 @@ class Users(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.name
+
 class ActivityLog(models.Model):
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     start_time = models.DateTimeField()
