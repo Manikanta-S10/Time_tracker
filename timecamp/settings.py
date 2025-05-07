@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0l99q)y!d$&lrie5z(3rvw7t8=v_q=#92&ba(1*75-3yicg73#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ['localhost', '192.168.68.133']
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
@@ -76,15 +77,23 @@ WSGI_APPLICATION = 'timecamp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Agsrt_Time_Tracking_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'MPPL@1984',
+#         'HOST': '192.168.68.184',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Agsrt_Time_Tracking_db',
-        'USER': 'postgres',
-        'PASSWORD': 'MPPL@1984',
-        'HOST': '192.168.68.184',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 
